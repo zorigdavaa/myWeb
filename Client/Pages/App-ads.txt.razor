@@ -1,5 +1,6 @@
 @page "/app-ads.txt"
 @inject HttpClient Http
+@layout EmptyLayout
 
 @if (fileContent == String.Empty)
 {
@@ -16,6 +17,7 @@ else
     private string fileContent = String.Empty;
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("Called");
         fileContent = await Http.GetStringAsync("txt/app-ads.txt");
     }
 }
