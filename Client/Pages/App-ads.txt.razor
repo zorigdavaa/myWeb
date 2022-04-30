@@ -1,21 +1,21 @@
-
 @page "/app-ads.txt"
+@inject HttpClient Http
 
-<pre>
-    @fileContent
-</pre>
+@if (fileContent == String.Empty)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <pre>
+        @fileContent
+    </pre>
+}
 
-@code{
-    private string fileContent = "";
-    
-
-    public override async Task OnInitialized()
+@code {
+    private string fileContent = String.Empty;
+    protected override async Task OnInitializedAsync()
     {
-        var file = e.File;
-        long maxsize = 512000;
-
-        var buffer = new byte[file.Size];
-        await file.OpenReadStream(maxsize).ReadAsync(buffer);
-        fileContent = System.Text.Encoding.UTF8.GetString(buffer);
+        fileContent = await Http.GetStringAsync("txt/app-ads.txt");
     }
 }
