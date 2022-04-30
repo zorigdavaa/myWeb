@@ -1,0 +1,21 @@
+
+@page "/app-ads.txt"
+
+<pre>
+    @fileContent
+</pre>
+
+@code{
+    private string fileContent = "";
+    
+
+    public override async Task OnInitialized()
+    {
+        var file = e.File;
+        long maxsize = 512000;
+
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream(maxsize).ReadAsync(buffer);
+        fileContent = System.Text.Encoding.UTF8.GetString(buffer);
+    }
+}
